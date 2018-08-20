@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TrustNote Explorer</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
+	<link rel="stylesheet" href="/styles/app.css?v7">
+	<link rel="icon" href="/img/icon.png">
+</head>
+<body>
+<!--top bar-->
+<div id="menu" class="rowFull">
+	<div id="menuLeft">
+		<a href="http://explorer.idanode.org" id="menuLeftImg"><img src="/img/Idanode_logo.png"></a>
+		<!--<div id="menuLeftTitle"><a href="http://explorer.idanode.org">TrustNote</a></div>-->
+	</div>
+	<div id="menuRight">
+		<div id="menuInput">
+			<form action="javascript:searchForm($('#inputSearch').val())" method="post">
+				<input type="text" id="inputSearch" placeholder="Search for unit or address">
+				<input type="submit" value="" id="submitSearch">
+			</form>
+		</div>
+	</div>
+	<div id="menuCenter">
+		<a href="/addressMap">Address Map</a>
+		<!--<div id="menuLeftTitle"><a href="http://explorer.idanode.org">TrustNote</a></div>-->
+	</div>
+</div>
+<!--data list-->
+<div class="main">
+	<div class="dataList" id="dataList">
+		<div class="first">
+			<h3>All Time Summary</h3>
+			<p>Total user addresses: <span id="allAddress" class="numberFormat">&nbsp;</span></p>
+			<p>Total active user addresses: <span id="activeAddress" class="numberFormat">&nbsp;</span></p>
+			<p>Total units: <span id="allUnits" class="numberFormat">&nbsp;</span></p>
+			<p>Total user units: <span id="totalUsersUnits" class="numberFormat">&nbsp;</span></p>
+		</div>
+		<div class="second">
+			<h3>Latest 24-hour Snapshot</h3>
+			<p>Total units posted: <span id="totalUnits" class="numberFormat">&nbsp;</span></p>
+			<p>Total user units: <span id="totalUserUnits" class="numberFormat">&nbsp;</span></p>
+			<p>Total fees: <span id="totalFees" class="numberFormat">&nbsp;</span> Notes</p>
+		</div>
+		<div class="third">
+			<div class="scroll">
+				<h3>Current Unit</h3>
+				<p class="infoTitle" id="unitParent">Unit: <span id="unit"></span></p>
+				<p class="infoTitle">Receiving time: <span id="received"></span></p>
+				<p class="infoTitle">Authors:<span id="authors"></span></p>
+				<div id="messages"></div>
+			</div>
+			<div class="cover">
+				<a href="javascript:void(0)" id="detailLink">Detail</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="canvasBox" id="canvasBox" onselectstart="return false">
+	<div class="imgBox">
+		<img src="/img/statusGroup.png" alt="">
+	</div>
+	<div id="middleware">
+		<div id="cy"></div>
+	</div>
+	<div id="goToTop" onclick="goToTop()">
+		<div id="titleGoToTop">Go to top</div>
+	</div>
+</div>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cytoscape.js"></script>
+<script src="/js/dagre.js"></script>
+<script src="/js/cytoscape-dagre.js"></script>
+<script src="/js/main.js?v12"></script>
+<script>
+	var userAgent = navigator.userAgent;
+	if (userAgent.match(".*Android.*") || userAgent.match(".*iPhone.*")) {
+		// console.log("Android");
+		// console.log("iPhone");
+		$('#canvasBox').hide();
+	} else {
+		console.log("You're something else...");
+	}
+	$('#detailLink').on('click',function (e) {
+		e.preventDefault()
+		window.location.href = '/detail' + window.location.hash;
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+*/5 * * * * cd idanode-relay; node check_daemon.js 1>>~/.config/idanode-relay/check_daemon.log 2>>~/.config/idanode-relay/check_daemon.err

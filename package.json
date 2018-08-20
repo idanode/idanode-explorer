@@ -1,0 +1,40 @@
+{
+  "name": "idanode-explorer",
+  "description": "TrustNote explorer",
+  "author": "TrustNote",
+  "version": "0.1.0",
+  "main": "start.js",
+  "keywords": [
+    "explorer",
+    "idanode",
+    "full node"
+  ],
+  "scripts": {
+    "start": "node explorer.js",
+    "minjs": "gulp"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/idanode/idanode-explorer.git",
+    "type": "git"
+  },
+  "bugs": {
+    "url": "https://github.com/idanode/idanode-explorer/issues"
+  },
+  "browser": {
+    "request": "browser-request",
+    "secp256k1": "secp256k1/js"
+  },
+  "dependencies": {
+    "async": "^2.1.5",
+    "idanode-common": "git+https://github.com/idanode/idanode-common.git",
+    "express": "^4.14.0",
+    "moment": "^2.17.1",
+    "socket.io": "^1.7.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.0.0"
+  }
+}

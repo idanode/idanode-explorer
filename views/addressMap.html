@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TrustNote Explorer</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
+	<link rel="stylesheet" href="/styles/app.css?v7">
+	<link rel="icon" href="/img/icon.png">
+	<style>
+		.main{
+			padding: 0 32px;
+			margin-top: 30px;
+			box-sizing: border-box;
+		}
+		.inputSearch{
+			margin-top: 10px;
+		}
+		#search{
+			width: 500px;
+			height: 42px;
+			background: #FFFFFF;
+			border-radius: 2px;
+			outline: none;
+			padding: 0 15px;
+			border: none;
+			font-size: 18px;
+		}
+		.inputSearch button{
+			width: 120px;
+			height: 42px;
+			outline: none;
+			border: 1px solid #000000;
+			margin-left: 20px;
+			font-size: 18px;
+			color: #333333;
+			cursor: pointer;
+			border-radius: 2px;
+			background: #eee;
+		}
+		.inputSearch .hint{
+			display: none;
+			font-size: 18px;
+			color: #333333;
+			line-height: 18px;
+			padding-left: 10px;
+			box-sizing: border-box;
+			font-weight: 700;
+			margin-top: 30px;
+		}
+		.inputSearch .hint a{
+			color: #0095FF;
+		}
+		/*表格*/
+		.sort{
+			width: 100%;
+			height: 748px;
+			margin-top: 30px;
+			background: #fff;
+			padding: 0 20px 32px;
+			box-sizing: border-box;
+			margin-bottom: 32px;
+		}
+		.sortDiv{
+			height: 100%;
+			padding: 0 30px;
+			overflow-x: auto;
+			box-sizing: border-box;
+		}
+		td,th{
+			line-height: 60px;
+			text-align: left;
+			padding-left: 30px;
+		}
+		td a{
+			color: #0095FF;
+		}
+		tbody tr:nth-child(even){
+			background: #F8F9FB;
+		}
+
+	</style>
+</head>
+<body>
+<!--top bar-->
+<div id="menu" class="rowFull">
+	<div id="menuLeft">
+		<a href="http://explorer.idanode.org" id="menuLeftImg"><img src="/img/Idanode_logo.png"></a>
+	</div>
+</div>
+<!--data list-->
+<div class="main">
+	<div class="inputSearch">
+		<input type="text" id="search" placeholder="Your TrustNote wallet address">
+		<button id="searchBtn">Search</button>
+		<p class="hint"></p>
+	</div>
+	<!--表格排行-->
+	<div class="sort">
+		<div class="sortDiv scroll">
+			<table style="text-align: center; border-collapse: collapse;width: 100%;">
+				<thead style="width: 100%;">
+				<tr style="border-bottom: 2px solid #CBD5E3;font-size: 18px;color: #666666;">
+					<th style="width: 15%;">Rank</th>
+					<th style="width: 35%;">Address</th>
+					<th style="width: 50%;">Amount (MN)</th>
+				</tr>
+				</thead>
+				<tbody id="tbodyHint">
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<script src="/js/jquery.min.js"></script>
+<script>
+	$(function(){
+
+		seachAll()
+		function seachAll(){
+			$.ajax({
+				type: "get",
+				url: 'https://activity.idanode.org/explorerManager/listByDay.htm',
+				dataType:'json',
+				data:{
+					time: '',
+					type : '3',
+					export : '',
+					amount : 200000000000
+				},
+				crossDomain: true,
+				xhrFields: {withCredentials: true},
+				success: function (data) {
+					// console.log(data.entity)
+					hint(data.entity)
+				},
+				error: function (msg) {
+					// layer.alert('【' + msg.responseText + '】', {icon: 5})
+				}
+			});
+		}
+
+		function hint(a){
+			if(a.length > 100){
+				var hintArr = a.slice(0,100)
+			}
+			var html = ''
+			for(i in hintArr){
+				html += '<tr style="border-bottom: 1px solid #E7EBF3">' +
+					'<td>#'+(parseInt(i)+1)+'</td>' +
+					'<td><a href=https://explorer.idanode.org/detail#'+hintArr[i].address+'>'+hintArr[i].address+'</a></td>' +
+					'<td>'+format_num(parseInt(hintArr[i].amount))+'</td>' +
+					'</tr>'
+			}
+			$("#tbodyHint").html(html)
+		}
+
+		function format_num (num) {
+			var reg=/\d{1,3}(?=(\d{3})+$)/g;
+			return (num + '').replace(reg, '$&,');
+		}
+
+		$("#searchBtn").click(function(){
+			var addRess = $("#search").val()
+			$.ajax({
+				type: "get",
+				url: 'https://activity.idanode.org/explorerManager/rank.htm',
+				dataType:'json',
+				data:{
+					address: addRess
+				},
+				crossDomain: true,
+				xhrFields: {withCredentials: true},
+				success: function (data) {
+					var html = 'Congratulations! You are the #'+data.entity.ranking+' richest with a value of '+data.entity.amount/1000000+' MN. Please click <a href='+"https://explorer.idanode.org/detail#"+addRess+'>here</a>.'
+					$(".hint").html(html)
+					$(".hint").show()
+				},
+				error: function (msg) {
+					// layer.alert('【' + msg.responseText + '】', {icon: 5})
+				}
+			});
+		})
+
+	})
+</script>
+</body>
+</html>
