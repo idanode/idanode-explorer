@@ -1,7 +1,7 @@
 {
   "name": "idanode-explorer",
-  "description": "TrustNote explorer",
-  "author": "TrustNote",
+  "description": "IdaNode explorer",
+  "author": "IdaNode",
   "version": "0.1.0",
   "main": "start.js",
   "keywords": [
