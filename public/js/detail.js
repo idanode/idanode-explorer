@@ -945,7 +945,7 @@ function generateTransactionsList(objTransactions, address) {
 			if (objFrom.issue) {
 				listTransactions += '<div class="transactionUnitListAddress">' +
 					'<div>' + addressOut + '</div>' +
-					'<div>Issue <span class="numberFormat">' + objFrom.amount + '</span> ' + transaction.asset + '</div>' +
+					'<div>Issue <span class="numberFormat">' + objFrom.amount + '</span> ' + (transaction.asset == null ? 'uDND' : transaction.asset) + '</div>' +
 					'<div>serial number: ' + objFrom.serial_number + '</div></div>';
 			} else if (objFrom.commissionType && (objFrom.commissionType === 'headers' || objFrom.commissionType === 'witnessing')) {
 				var commissionName = (objFrom.commissionType === 'headers' ? 'headers' : (objFrom.commissionType === 'witnessing' ? 'witnessing' : false));
