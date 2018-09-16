@@ -114,76 +114,23 @@
 </div>
 
 <script src="/js/jquery.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/cytoscape.min.js"></script>
+<script src="/js/dagre.js"></script>
+<script src="/js/addressMap.js"></script>
+
 <script>
-	$(function(){
+        $(function(){
 
-		seachAll()
-		function seachAll(){
-			$.ajax({
-				type: "get",
-				url: 'https://activity.idanode.org/explorerManager/listByDay.htm',
-				dataType:'json',
-				data:{
-					time: '',
-					type : '3',
-					export : '',
-					amount : 200000000000
-				},
-				crossDomain: true,
-				xhrFields: {withCredentials: true},
-				success: function (data) {
-					// console.log(data.entity)
-					hint(data.entity)
-				},
-				error: function (msg) {
-					// layer.alert('【' + msg.responseText + '】', {icon: 5})
-				}
-			});
-		}
+                $("#searchBtn").click(function(){
+                        var addRess = $("#search").val()
+                        //Hoang modified
+                        window.location.href = '/detail#' + addRess;
+                })
 
-		function hint(a){
-			if(a.length > 100){
-				var hintArr = a.slice(0,100)
-			}
-			var html = ''
-			for(i in hintArr){
-				html += '<tr style="border-bottom: 1px solid #E7EBF3">' +
-					'<td>#'+(parseInt(i)+1)+'</td>' +
-					'<td><a href=https://explorer.idanode.org/detail#'+hintArr[i].address+'>'+hintArr[i].address+'</a></td>' +
-					'<td>'+format_num(parseInt(hintArr[i].amount))+'</td>' +
-					'</tr>'
-			}
-			$("#tbodyHint").html(html)
-		}
 
-		function format_num (num) {
-			var reg=/\d{1,3}(?=(\d{3})+$)/g;
-			return (num + '').replace(reg, '$&,');
-		}
-
-		$("#searchBtn").click(function(){
-			var addRess = $("#search").val()
-			$.ajax({
-				type: "get",
-				url: 'https://activity.idanode.org/explorerManager/rank.htm',
-				dataType:'json',
-				data:{
-					address: addRess
-				},
-				crossDomain: true,
-				xhrFields: {withCredentials: true},
-				success: function (data) {
-					var html = 'Congratulations! You are the #'+data.entity.ranking+' richest with a value of '+data.entity.amount/1000000+' MN. Please click <a href='+"https://explorer.idanode.org/detail#"+addRess+'>here</a>.'
-					$(".hint").html(html)
-					$(".hint").show()
-				},
-				error: function (msg) {
-					// layer.alert('【' + msg.responseText + '】', {icon: 5})
-				}
-			});
-		})
-
-	})
+        })
 </script>
 </body>
 </html>
