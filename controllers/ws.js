@@ -205,3 +205,4 @@ exports.info = info;
 exports.highlightNode = highlightNode;
 exports.nextPageTransactions = nextPageTransactions;
 exports.staticdata = staticdata;
+exports.topHolderRank = topHolderRank;
