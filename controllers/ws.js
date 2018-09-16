@@ -175,6 +175,28 @@ function staticdata(){
 	var data =  staticslib.getStatistics();
 	ws.emit('staticdata',data);
 }
+
+//Hoang Added
+function topHolderRank(){
+        console.log("server-topHolderRank");
+        var ws = this;
+        var topHolder = [];
+        db.query("SELECT address,sum(amount) as amount FROM outputs where is_spent = 0 GROUP BY address ORDER BY amount DESC", function(rows) {
+                        if(rows.length) {
+                                rows.forEach(function(row,index) {
+                                                topHolder.push({
+                                                        rank: index,
+                                                        address:row.address,
+                                                        amount: row.amount
+                                                });
+                                });
+                                ws.emit('topHolderRank',topHolder);
+                        }else{
+                                ws.emit('topHolderRank');
+                        }
+                });
+}
+
 exports.start = start;
 exports.next = next;
 exports.prev = prev;
