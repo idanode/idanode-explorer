@@ -38,6 +38,11 @@ io.on('connection', function(socket) {
 	socket.on('nextPageTransactions', ws.nextPageTransactions);
 });
 
+io.of('addressMap').on('connection', function(socket) {
+        socket.on('topHolderRank', ws.topHolderRank);
+
+});
+
 io.of('detail').on('connection', function(socket) {
 	socket.on('start', ws.start);
 	socket.on('next', ws.next);
